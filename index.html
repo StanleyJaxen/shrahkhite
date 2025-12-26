@@ -5,59 +5,229 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>VKT Oracle — Rune Meanings</title>
   <style>
-    :root { --bg:#0f1115; --panel:#151a22; --ink:#e7e7e7; --muted:#aab1c3; --accent:#ff4d6d; }
-    body{ margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:var(--bg); color:var(--ink); }
-    header{ padding:24px 16px 12px; max-width:1100px; margin:0 auto; }
-    h1{ margin:0 0 8px; font-size:24px; letter-spacing:0.4px; }
-    p{ margin:0 0 14px; color:var(--muted); line-height:1.4; }
-    .bar{ display:flex; gap:10px; flex-wrap:wrap; }
+    :root{
+      --bg:#ffffff;
+      --panel:#ffffff;
+      --ink:#111111;
+      --muted:#4b5563;   /* slate-ish */
+      --border:#e5e7eb;  /* light gray */
+      --accent:#111111;  /* keep it minimal */
+      --shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.06);
+    }
+
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+    }
+
+    header{
+      padding:28px 16px 14px;
+      max-width:1100px;
+      margin:0 auto;
+    }
+
+    h1{
+      margin:0 0 8px;
+      font-size:26px;
+      letter-spacing:0.2px;
+    }
+
+    p{
+      margin:0 0 14px;
+      color:var(--muted);
+      line-height:1.45;
+    }
+
+    .bar{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+
     input{
-      flex:1; min-width:240px; padding:12px 12px; border-radius:10px;
-      border:1px solid #2a3242; background:var(--panel); color:var(--ink);
+      flex:1;
+      min-width:240px;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:#fff;
+      color:var(--ink);
       outline:none;
     }
+    input:focus{ border-color:#c7cbd3; box-shadow:0 0 0 4px rgba(17,17,17,.06); }
+
     .chips{ display:flex; gap:8px; flex-wrap:wrap; }
     button.chip{
-      padding:10px 10px; border-radius:999px; border:1px solid #2a3242;
-      background:transparent; color:var(--ink); cursor:pointer;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:#fff;
+      color:var(--ink);
+      cursor:pointer;
     }
-    button.chip.active{ border-color:var(--accent); color:var(--accent); }
+    button.chip.active{
+      border-color:#111;
+      background:#111;
+      color:#fff;
+    }
+
     main{ max-width:1100px; margin:0 auto; padding:10px 16px 28px; }
-    .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; }
-    .card{
-      background:var(--panel); border:1px solid #232b3a; border-radius:14px;
-      padding:14px; cursor:pointer; transition:transform .08s ease, border-color .08s ease;
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+      gap:12px;
     }
-    .card:hover{ transform:translateY(-1px); border-color:#3a4660; }
-    .key{ font-weight:700; font-size:18px; }
-    .cat{ color:var(--muted); font-size:12px; margin-top:2px; }
-    .title{ margin-top:10px; font-weight:700; color:var(--accent); }
-    .short{ margin-top:6px; color:var(--ink); opacity:.92; line-height:1.35; }
+
+    .card{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:14px;
+      cursor:pointer;
+      transition:transform .08s ease, box-shadow .08s ease, border-color .08s ease;
+      box-shadow: 0 1px 2px rgba(0,0,0,.03);
+    }
+    .card:hover{
+      transform:translateY(-1px);
+      border-color:#d5d7dd;
+      box-shadow: var(--shadow);
+    }
+
+    .toprow{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .key{ font-weight:800; font-size:18px; }
+    .cat{ color:var(--muted); font-size:12px; }
+
+    .title{
+      margin-top:10px;
+      font-weight:800;
+      color:var(--accent);
+    }
+
+    .thumb{
+      margin-top:10px;
+      width:100%;
+      aspect-ratio: 16 / 9;
+      border-radius:12px;
+      border:1px solid var(--border);
+      overflow:hidden;
+      background:#fafafa;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .thumb .placeholder{
+      color:var(--muted);
+      font-size:12px;
+      padding:10px;
+      text-align:center;
+    }
+
+    .short{
+      margin-top:10px;
+      color:var(--ink);
+      line-height:1.4;
+    }
+
     .footer{ color:var(--muted); font-size:12px; margin-top:14px; }
 
     /* modal */
-    .overlay{ position:fixed; inset:0; background:rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; padding:18px; }
-    .overlay.show{ display:flex; }
-    .modal{
-      width:min(720px, 100%); background:#0f1320; border:1px solid #2a3242; border-radius:16px;
+    .overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.35);
+      display:none;
+      align-items:center;
+      justify-content:center;
       padding:18px;
     }
-    .modal .top{ display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
-    .modal h2{ margin:0; font-size:22px; }
-    .close{ background:transparent; border:1px solid #2a3242; color:var(--ink); border-radius:10px; padding:8px 10px; cursor:pointer; }
-    .modal .meta{ color:var(--muted); margin-top:2px; }
-    .modal .meaning{ margin-top:14px; line-height:1.5; white-space:pre-wrap; }
-    .modal .prompt{
-      margin-top:14px; background:#141a2c; border:1px solid #2a3242; border-radius:12px;
-      padding:12px; color:var(--ink);
+    .overlay.show{ display:flex; }
+
+    .modal{
+      width:min(820px, 100%);
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:18px;
+      box-shadow: var(--shadow);
     }
-    .modal .prompt b{ color:var(--accent); }
+
+    .modal .top{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+    }
+    .modal h2{ margin:0; font-size:22px; }
+    .modal .meta{ color:var(--muted); margin-top:2px; }
+
+    .close{
+      background:#fff;
+      border:1px solid var(--border);
+      color:var(--ink);
+      border-radius:12px;
+      padding:8px 10px;
+      cursor:pointer;
+    }
+    .close:hover{ border-color:#cfd3db; }
+
+    .modalImg{
+      margin-top:14px;
+      width:100%;
+      aspect-ratio: 21 / 9;
+      border-radius:14px;
+      border:1px solid var(--border);
+      overflow:hidden;
+      background:#fafafa;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .modalImg img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .modalImg .placeholder{
+      color:var(--muted);
+      font-size:12px;
+      padding:10px;
+      text-align:center;
+    }
+
+    .meaning{
+      margin-top:14px;
+      line-height:1.6;
+      white-space:pre-wrap;
+    }
+
+    .prompt{
+      margin-top:14px;
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:12px;
+      background:#fafafa;
+      color:var(--ink);
+    }
+    .prompt b{ color:#111; }
   </style>
 </head>
+
 <body>
 <header>
   <h1>VKT Oracle — Rune Meanings</h1>
-  <p>Search by key (e.g., <b>K</b>, <b>Sh</b>, <b>O3</b>) or by meaning (e.g., “threshold”, “shadow”, “clarity”). Cards show a short overview; click for the full meaning.</p>
+  <p>Search by key (e.g., <b>K</b>, <b>Sh</b>, <b>O3</b>) or by meaning (e.g., “threshold”, “shadow”, “clarity”). Cards show a short overview + image; click for the full meaning.</p>
 
   <div class="bar">
     <input id="q" placeholder="Search… (K, Sh, O1, clarity, boundary, etc.)" autocomplete="off" />
@@ -67,7 +237,7 @@
 
 <main>
   <div class="grid" id="grid"></div>
-  <div class="footer">Tip: bookmark this page on your phone so you can look up a pull instantly.</div>
+  <div class="footer">Tip: add your rune images into an <b>images/</b> folder beside <b>index.html</b>, then set each rune’s <b>img</b> path (e.g., <code>images/B.png</code>).</div>
 </main>
 
 <div class="overlay" id="overlay" role="dialog" aria-modal="true">
@@ -79,163 +249,232 @@
       </div>
       <button class="close" id="closeBtn">Close</button>
     </div>
+
+    <div class="modalImg" id="mImgWrap"></div>
+
     <div class="meaning" id="mMeaning"></div>
     <div class="prompt" id="mPrompt"></div>
   </div>
 </div>
 
 <script>
+  // Add your images by putting files in /images and updating img/imgLarge paths.
+  // img: shown on the card
+  // imgLarge: shown in the popup (optional; if missing it uses img)
   const RUNES = [
     // Consonants
     {key:"B", cat:"Consonant", title:"Spark / Initiation",
+     img:"images/B.png", imgLarge:"images/B_large.png",
      overview:"Beginnings, ignition, first-step energy. Start before you feel ready.",
      meaning:"B is the first undeniable flicker—the moment an idea becomes real enough to move your hands. It rarely arrives with certainty; it arrives with a pulse, a nudge, a quiet insistence that something wants to begin. When B appears, you are being asked to start before you feel prepared and to trust that clarity often comes after motion, not before it. This rune favors small, honest steps: the message you send, the page you write, the first hour you commit. B also warns against waiting for permission, because the act of beginning is the permission.",
      prompt:"<b>Ask:</b> What is the smallest true step I can take today?"},
+
     {key:"D", cat:"Consonant", title:"Boundary / Structure",
+     img:"images/D.png",
      overview:"Protection through limits. Build a frame strong enough to hold your energy.",
      meaning:"D is the rune of form—the walls of the temple, the spine of the book, the rules that let energy become stable instead of scattered. When D appears, it asks where you need clearer boundaries, stronger routines, or a cleaner definition of what you will and won’t accept. This is not a punishment rune; it is protective, like a fence around a growing garden. D can indicate discipline, timelines, budgets, standards, and agreements that keep something alive long enough to mature. If you feel overwhelmed, D often suggests that structure—not more effort—is the missing ingredient.",
      prompt:"<b>Ask:</b> Where do I need firmer limits or clearer rules?"},
+
     {key:"G", cat:"Consonant", title:"Gravity / Consequence",
+     img:"images/G.png",
      overview:"The weight of cause and effect. Commit fully or release what you can’t carry.",
      meaning:"G carries weight. It reminds you that choices are not theoretical—they bend reality and create outcomes that must be lived with. When G appears, something is reaching a point where consequences become visible and commitment matters more than intention. This rune may show up when you have been drifting, delaying, or trying to keep options open; it asks you to either devote yourself fully or release what you cannot carry. G is also about responsibility without shame: owning the direction your life is moving and choosing that direction consciously. If you feel heaviness, ask whether it is rightful duty—or a burden you no longer need.",
      prompt:"<b>Ask:</b> What outcome am I choosing by continuing this?"},
+
     {key:"H", cat:"Consonant", title:"Veil / Hidden Truth",
+     img:"images/H.png",
      overview:"Something is not fully revealed yet. Observe patterns; don’t force answers.",
      meaning:"H is the veil between what you know and what is still forming beneath the surface. It signals hidden information, unspoken motives, unclear timing, or truths that cannot be rushed into daylight. When H appears, the right move is rarely force—it is observation, patience, and careful listening to patterns that repeat. This rune often arrives when your mind demands certainty but your situation requires maturity; it teaches that some clarity is earned by waiting, not by pressing. H also encourages discernment: not everything is meant for you, not everything must be revealed, and not every mystery is a problem. Let the veil lift in its own time.",
      prompt:"<b>Ask:</b> What am I not seeing because I’m rushing?"},
+
     {key:"K", cat:"Consonant", title:"Blade / Decision",
+     img:"images/K.png",
      overview:"Clean cut energy. Choose, sever, simplify—stop feeding what drains you.",
      meaning:"K is clean decision—the blade that cuts confusion into two clear pieces. When K appears, something must be simplified, severed, chosen, or ended so energy can return to your life. This rune favors precision and courage: naming the truth, removing what drains you, and accepting the cost of clarity. K can feel intense because it refuses half-measures; it asks you to stop negotiating with what you already know. It also carries mercy, because indecision can become a slow form of self-harm. When K is present, the question is not what you want—it is what you are willing to cut away to get it.",
      prompt:"<b>Ask:</b> What must be cut to restore momentum?"},
+
     {key:"L", cat:"Consonant", title:"Thread / Connection",
+     img:"images/L.png",
      overview:"Relationships and bridges matter now. Reach, repair, or strengthen the link.",
      meaning:"L is the thread that links people, places, ideas, and moments across distance and time. When L appears, your path is influenced by relationships—support, collaboration, loyalty, community, or the need for repair. This rune asks you to look at your connections honestly: which ones nourish you, which ones drain you, and which ones are calling for a clearer boundary. L can also indicate networks and “bridges”—the one conversation, introduction, or alliance that changes everything. If you’ve been isolated, L suggests that help exists but may require you to reach out first. Connection is not weakness here; it is strategy and medicine.",
      prompt:"<b>Ask:</b> Who/what is the true bridge here?"},
+
     {key:"M", cat:"Consonant", title:"Vessel / Containment",
+     img:"images/M.png",
      overview:"Protect what’s forming. Hold your energy instead of leaking it everywhere.",
      meaning:"M is a vessel—something that holds power without leaking it. When M appears, it often means something precious is forming and must be protected: an idea, a relationship, a plan, a healing process, or your own energy. This rune advises containment, privacy, and patience; not everything needs to be spoken aloud while it is still fragile. M also asks you to strengthen your inner container through rest, boundaries, and steady habits so your life can hold what you’re calling in. If you feel scattered, M suggests gathering yourself and sealing the cracks where energy escapes. Hold it. Keep it safe. Let it grow before you display it.",
      prompt:"<b>Ask:</b> What needs safeguarding until it matures?"},
+
     {key:"N", cat:"Consonant", title:"Current / Movement",
+     img:"images/N.png",
      overview:"Momentum returns. Move with life—progress comes through motion, not perfection.",
      meaning:"N is movement returning—like water that begins to flow after a blockage clears. When N appears, stagnation breaks, circumstances shift, and momentum becomes available again. This rune asks you to move with life instead of against it, because resistance will exhaust you and delay the opening. N can indicate travel, transition, changing plans, or a new rhythm that carries you forward. It also suggests that progress may not look tidy; it may come in waves, detours, and quick adjustments. When N is present, your task is to stay responsive and keep moving—motion itself becomes the medicine.",
      prompt:"<b>Ask:</b> Where is life already moving—so I can move with it?"},
+
     {key:"R", cat:"Consonant", title:"Call / Return",
+     img:"images/R.png",
      overview:"A lesson is repeating for closure. Return, resolve, and complete the cycle.",
      meaning:"R is the echo—something unfinished calling you back to complete a lesson, resolve a cycle, or reclaim a part of yourself. When R appears, the past is not haunting you; it is offering you a second chance to do it differently. This rune can show repeating patterns in relationships, work, money, or self-belief, and it asks you to notice what keeps returning until it is addressed with truth. R also brings destiny energy: the feeling that a door has reopened, a path has reappeared, or an old vow needs to be revised. If you feel stuck in repetition, R says: don’t run—learn, choose, and close the loop.",
      prompt:"<b>Ask:</b> What is repeating until I learn it?"},
+
     {key:"S", cat:"Consonant", title:"Signal / Message",
+     img:"images/S.png",
      overview:"Signs are active. The answer is arriving in patterns, hints, and synchronicities.",
      meaning:"S is the rune of signs—messages that arrive sideways through patterns, synchronicity, dreams, coincidence, and charged moments. When S appears, reality is speaking in a coded language and your job is to pay attention rather than demand a loud answer. This rune favors observation: repeated symbols, recurring themes in conversation, unexpected reminders, or a phrase that lands like a bell. S can also indicate communication with others—emails, calls, confessions, secrets—where timing and wording matter. If you’ve been asking for guidance, S says it is already arriving, but you must slow down enough to receive it. The message is here; your awareness is the key.",
      prompt:"<b>Ask:</b> What message keeps tapping my shoulder?"},
+
     {key:"T", cat:"Consonant", title:"Tower / Trial",
+     img:"images/T.png",
      overview:"Pressure reveals truth. Endure, refine, and let integrity prove itself.",
      meaning:"T is the trial that proves what is real. It appears when pressure increases, responsibilities tighten, or life asks you to endure rather than escape. This rune is not about punishment—it is about forging: heat and strain reveal strength, weakness, truth, and illusion. When T appears, you are being shaped by challenge, and what survives will be solid. It also warns against shortcuts, because what is built without integrity collapses under load. If you feel tested, T invites you to choose discipline, patience, and steady action—because the outcome will be worth the effort, and you will trust yourself more afterward.",
      prompt:"<b>Ask:</b> What strength is being forged right now?"},
+
     {key:"V", cat:"Consonant", title:"Gate / Permission",
+     img:"images/V.png",
      overview:"A threshold is near. Access opens when you align with what you’re asking for.",
      meaning:"V is a gate—an opening that exists, but only for the version of you that can walk through it. When V appears, access is near: an opportunity, a relationship shift, a next level, an initiation, a new phase of life. But this rune is conditional; it asks you to match the threshold through alignment, readiness, and honesty. V can also signal that you are seeking entry into something that requires a different posture: clearer boundaries, stronger self-worth, or a more committed approach. If you keep hitting the same closed door, V suggests you are meant to change before the door opens. The gate will respond to your alignment, not your wanting.",
      prompt:"<b>Ask:</b> What do I need to match in order to enter?"},
+
     {key:"W", cat:"Consonant", title:"Wild / Unscripted",
+     img:"images/W.png",
      overview:"Expect unpredictability. Flexibility and courage beat rigid planning right now.",
      meaning:"W is the wild wind—the part of life that refuses your plans and forces you to adapt. When W appears, predictability drops and improvisation becomes your advantage. This rune can feel chaotic, but it often brings a strange freedom: you stop trying to control everything and start responding with instinct and creativity. W may indicate sudden changes, unexpected outcomes, disruptions, or new variables that rewrite your map. It also asks you to stay alert and flexible rather than fragile and rigid. In the wild, you don’t win by perfect planning—you win by resilience, presence, and bold adjustment.",
      prompt:"<b>Ask:</b> Where am I resisting necessary change?"},
+
     {key:"X", cat:"Consonant", title:"Crossroads / Interference",
+     img:"images/X.png",
      overview:"Competing paths or mixed signals. Simplify the field and choose with integrity.",
      meaning:"X is a crossroads where paths overlap, conflict, or compete for your attention. When X appears, you may feel pulled in two directions, pressured by conflicting values, or stuck between choices that both carry consequences. This rune warns against drifting, because indecision creates interference—energy gets split and progress slows. X asks you to clarify what matters most, name the true tension, and choose with integrity rather than panic. It can also indicate outside interference: competing voices, distractions, mixed messages, or obligations that muddy your intuition. When X arrives, simplify your field, choose one direction, and let the rest fall away.",
      prompt:"<b>Ask:</b> What choice ends the internal tug-of-war?"},
+
     {key:"Y", cat:"Consonant", title:"Fork / Divergence",
+     img:"images/Y.png",
      overview:"Two futures are splitting. Avoidance is a choice—pick the path that is honest.",
      meaning:"Y is the fork—the moment your life splits into two distinct futures. When this rune appears, avoidance is no longer a neutral act; not choosing becomes its own decision. Y asks you to choose based on integrity, values, and long-term truth rather than short-term comfort. One path may feel safer, the other more alive; one may protect your image, the other may protect your soul. This rune also highlights consequences: each branch grows into a different identity, different relationships, different outcomes. Y does not demand speed; it demands honesty. Choose the path that you will be proud to live with when the fear fades.",
      prompt:"<b>Ask:</b> Which path makes me more honest?"},
+
     {key:"Z", cat:"Consonant", title:"Edge / Precision",
+     img:"images/Z.png",
      overview:"Refine the details. Small adjustments now can change the whole outcome later.",
      meaning:"Z is precision—the sharpened edge where small choices create huge results. When Z appears, the difference between success and failure is not motivation; it is detail, refinement, and skill. This rune asks you to tighten the work, clean the structure, finish the last 10% that transforms something from ‘almost’ to ‘real.’ Z can also indicate boundaries, standards, and the courage to be exact rather than vague. If you’ve been rushing or approximating, Z says: slow down and make it precise. Excellence here is not perfection—it is care, attention, and deliberate craftsmanship.",
      prompt:"<b>Ask:</b> What detail is the real lever here?"},
 
     // Vowels
     {key:"A", cat:"Vowel", title:"Breath / Presence",
+     img:"images/A.png",
      overview:"Return to the present. Attention is power; grounding restores clarity.",
      meaning:"A is breath and arrival—the rune that pulls you back into the present moment where power actually exists. When A appears, you are being asked to stop performing, stop racing, and stop living in the imagined future or the replayed past. This rune strengthens embodiment: your nervous system, your senses, your attention, your ability to stay here. A often shows up when anxiety is stealing your clarity, because presence restores discernment. It also supports simple rituals—breathing, grounding, and focusing on what is immediately true. Before action, A says: arrive fully, because the moment is the altar.",
      prompt:"<b>Ask:</b> What happens if I stop performing and just arrive?"},
     {key:"E", cat:"Vowel", title:"Clarity / Insight",
+     img:"images/E.png",
      overview:"Confusion lifts. Name what’s true and let the pattern reveal the next step.",
      meaning:"E is illumination—the light that reveals the pattern beneath confusion. When E appears, the situation is capable of being understood, named, and simplified into truth. This rune invites you to speak plainly to yourself and to stop decorating reality with fear or fantasy. E can arrive as a sudden insight, a clean realization, or the moment the ‘why’ becomes obvious. It also supports learning, study, planning, and honest analysis. If you’ve been overwhelmed, E says: reduce it to what is true, and the next step will become clear.",
      prompt:"<b>Ask:</b> What is the simplest true explanation?"},
     {key:"I", cat:"Vowel", title:"Self / Identity",
+     img:"images/I.png",
      overview:"Stand in your truth. Integrity matters more than approval right now.",
      meaning:"I is the inner stance—the part of you that remains when opinions, pressure, and performance fall away. When I appears, you are being asked to align with your own truth and act from integrity rather than approval-seeking. This rune often comes during identity shifts, boundary challenges, or moments when you must choose who you are becoming. I also supports self-trust: the ability to make decisions without needing constant validation. If you feel pulled by others’ expectations, I says: return to your values and let them be your compass. Consistency with yourself becomes protection and power.",
      prompt:"<b>Ask:</b> What do I believe even when nobody agrees?"},
     {key:"O", cat:"Vowel", title:"Orbit / Wholeness",
+     img:"images/O.png",
      overview:"Completion and integration. Close the loop and return to your center.",
      meaning:"O is the circle returning to itself—completion, wholeness, and cycles closing cleanly. When O appears, something is ready to finish: a chapter, a pattern, a project, a loop of emotional processing. This rune asks you to complete what you began, gather the lesson, and return to center rather than scattering into new distractions. O also brings integration—bringing separate parts of yourself into unity so you can move forward without fragmentation. If you’ve been drifting, O says: come home to your core and close what is open. Completion restores energy.",
      prompt:"<b>Ask:</b> What is ready to close cleanly?"},
     {key:"U", cat:"Vowel", title:"Depth / Mystery",
+     img:"images/U.png",
      overview:"Trust intuition. Some truths are felt before they can be proven.",
      meaning:"U is the deep water—the rune of intuition, mystery, and the wisdom that lives beneath logic. When U appears, you may not be able to prove what you know, but you can feel it. This rune invites you to enter the inner cave: emotion, memory, subconscious truth, and spiritual sensing. U often arrives when answers require stillness, honesty, and comfort with uncertainty rather than analysis. It also supports healing work, dreamwork, and sacred silence. If you keep demanding certainty, U gently reminds you that some truths are felt first—and confirmed later.",
      prompt:"<b>Ask:</b> What do I already know without proof?"},
 
     // Ligatures
     {key:"Ai", cat:"Ligature", title:"Awakening / Spark-Thought",
+     img:"images/Ai.png",
      overview:"A new idea ignites. Capture the first flash before doubt smothers it.",
      meaning:"Ai is the ignition of thought—the first flash that changes direction before the mind can argue you out of it. When Ai appears, pay attention to the earliest, cleanest insight, because it often carries the most truth. This rune is fragile but potent; it may arrive as curiosity, inspiration, a sudden question, or an image that won’t leave you alone. Ai asks you to capture it quickly—write it down, speak it, sketch it—before doubt smothers it. It also signals awakening: a moment when you realize you cannot un-know what you now know. Follow the spark gently, and it will grow into a flame.",
      prompt:"<b>Ask:</b> What idea keeps returning even when I ignore it?"},
+
     {key:"Ei", cat:"Ligature", title:"Revelation / Clean Knowing",
+     img:"images/Ei.png",
      overview:"The truth is already known. Act while the clarity is still bright.",
      meaning:"Ei is clarity that lands like a bell—direct, clean, and impossible to pretend you didn’t hear. When Ei appears, the truth is already known and the only remaining question is action. This rune discourages delay, because hesitation dulls revelation and invites confusion to creep back in. Ei can indicate a decision point, a breakthrough, or an honest conversation that must happen now. It also brings ethical clarity: you know what is right, even if it is inconvenient. When Ei arrives, trust your clean knowing and move while it is still bright.",
      prompt:"<b>Ask:</b> What decision is already made in my gut?"},
+
     {key:"Ie", cat:"Ligature", title:"Memory / Echo",
+     img:"images/Ie.png",
      overview:"The past resurfaces for integration. Learn the lesson instead of repeating it.",
      meaning:"Ie is the echo of memory—the past resurfacing not to punish you, but to be integrated. When Ie appears, an old lesson, pattern, wound, or ancestral theme is returning for resolution. This rune invites reflection: what did you learn, what did you avoid, and what is ready to be healed now? Ie can show up in recurring dreams, repeated relationship dynamics, or sudden emotional triggers that reveal something unfinished. It asks you to become conscious so you can choose differently. The past is not here to trap you; it is here to be transformed into wisdom.",
      prompt:"<b>Ask:</b> What is the past trying to teach me now?"},
+
     {key:"Ou", cat:"Ligature", title:"Expansion / Outward Flow",
+     img:"images/Ou.png",
      overview:"Growth wants to move outward. Share, publish, connect, and extend your reach.",
      meaning:"Ou is outward movement—growth that wants to spread beyond the private inner world. When Ou appears, energy is ready to be shared: publish, teach, speak, launch, connect, or extend your influence. This rune supports visibility and distribution; it asks you to stop hiding what you’ve built. Ou also carries generosity: the idea that your work can serve others and your voice can reach further than you think. If you’ve been preparing quietly, Ou is the sign that it’s time to step outward. Let the current carry what you’ve made into the world.",
      prompt:"<b>Ask:</b> Where can I share, ship, publish, or extend?"},
+
     {key:"Ua", cat:"Ligature", title:"Descent / Inner Cave",
+     img:"images/Ua.png",
      overview:"Go inward for truth and healing. Withdrawal now prevents collapse later.",
      meaning:"Ua is the descent—turning inward to face what is real beneath your surface. When Ua appears, the medicine is not more activity; it is honesty, rest, and the courage to feel what you’ve been avoiding. This rune often shows up during healing, shadow work, grief processing, or spiritual recalibration. Ua asks you to simplify your outer life so your inner life can speak. It also warns that avoidance will eventually become collapse if you ignore your needs too long. Go inward now, and you return stronger, clearer, and more whole.",
      prompt:"<b>Ask:</b> What am I avoiding feeling?"},
 
     // Doubles
     {key:"Ch", cat:"Double", title:"Bond / Chain",
+     img:"images/Ch.png",
      overview:"Commitments and attachments shape destiny. Examine what binds you and why.",
      meaning:"Ch is binding—oaths, commitments, attachments, and obligations that hold you to a path. When Ch appears, examine what you are tied to and whether that bond is chosen, healthy, and sacred—or whether it has become a chain. This rune can represent loyalty, devotion, marriage, contracts, family duty, or the invisible agreements you made with fear. Ch asks you to be honest about the cost of what binds you and to clarify the terms of your commitments. Sometimes Ch is a blessing that stabilizes love; sometimes it is a warning that you must renegotiate. Either way, it says: your bonds shape your destiny.",
      prompt:"<b>Ask:</b> What am I attached to—and is it sacred or limiting?"},
+
     {key:"Kh", cat:"Double", title:"Break / Unbinding",
+     img:"images/Kh.png",
      overview:"Liberation through separation. Cut cords, reclaim agency, breathe freely again.",
      meaning:"Kh is unbinding—the deliberate break that returns agency to your hands. When Kh appears, something must be dismantled: a habit, a contract, an identity, a fear-pattern, or a relationship dynamic that limits your freedom. This rune supports cord-cutting, boundary enforcement, and the courage to leave what drains you. Kh also carries recovery energy: the first breath after you stop living under pressure and control. If you feel guilty for choosing freedom, Kh reminds you that liberation is not selfish when the cage was never meant to be your home. Break what binds you, and your life force returns.",
      prompt:"<b>Ask:</b> What would freedom look like in one concrete action?"},
+
     {key:"Ph", cat:"Double", title:"Flame / Offering",
+     img:"images/Ph.png",
      overview:"Passion is available—direct it. Fire blesses when contained and intentional.",
      meaning:"Ph is fire—passion, devotion, desire, and the raw fuel that powers creation. When Ph appears, you have energy available, but it must be directed or it will burn you as easily as it empowers you. This rune asks where your fire belongs: what goal, relationship, craft, or spiritual path deserves your offering. Ph also warns against scattering intensity across too many things or using passion to avoid pain. Fire is sacred when contained, dangerous when unmanaged. Choose what you truly serve, and offer your flame there with intention.",
      prompt:"<b>Ask:</b> Where should my fire be focused?"},
+
     {key:"Sh", cat:"Double", title:"Shadow / Subtext",
+     img:"images/Sh.png",
      overview:"The unspoken layer is shaping events. Face what’s hidden with honesty.",
      meaning:"Sh is the shadow layer—the truth beneath words, the motive beneath the story, the feeling beneath the logic. When Sh appears, something unspoken is shaping the situation, and you are being asked to face it with honesty. This rune supports self-inquiry, psychological insight, and shadow work; it asks what you’re not admitting even to yourself. Sh can also indicate secrets, hidden dynamics, projection, or a need to read between the lines in communication. It does not mean “bad”—it means “real.” When Sh arrives, truth becomes power the moment you stop hiding it.",
      prompt:"<b>Ask:</b> What am I not admitting—even to myself?"},
+
     {key:"Th", cat:"Double", title:"Threshold / Crossing",
+     img:"images/Th.png",
      overview:"An irreversible transition is here. Step through with intent, not fear.",
      meaning:"Th is the threshold—an irreversible crossing into a new phase of life. When Th appears, the old chapter is ending and you can feel the edge of change, even if you don’t know what’s on the other side. This rune carries initiation energy: a before-and-after moment that shifts identity, relationships, or purpose. Th asks you to step through with intention rather than fear, because resisting the crossing only prolongs discomfort. It also suggests rites of passage: taking responsibility, committing to a path, or letting an old self die. The doorway is here; you are meant to cross.",
      prompt:"<b>Ask:</b> What am I ready to become on the other side?"},
+
     {key:"Zh", cat:"Double", title:"Crown / Authority",
+     img:"images/Zh.png",
      overview:"Earned leadership and responsibility. Lead with integrity, not domination.",
      meaning:"Zh is authority earned—not dominance, but mastery and responsibility. When Zh appears, you are being asked to lead, steward, teach, or hold a higher standard for yourself and others. This rune may indicate a role of command, a time to stop shrinking, or a moment when your wisdom must become visible. Zh also tests integrity: are you using power to control, or to protect and guide? True authority is calm, precise, and accountable. When Zh arrives, you are ready to carry something heavier because you have become someone stronger.",
      prompt:"<b>Ask:</b> Where must I lead instead of wait?"},
 
     // O glyphs
     {key:"O1", cat:"O-Glyph", title:"Shralek — Inner Self",
+     img:"images/O1.png",
      overview:"Core truth beneath all roles. Return to yourself and stop negotiating your knowing.",
      meaning:"O1 is the Inner Self—your core truth beneath roles, history, and performance. When O1 appears, it asks you to return to what is genuinely yours: your values, your inner voice, your real needs, your quiet knowing. This rune often appears when you’ve been over-shaped by other people’s expectations or when you’ve abandoned yourself to survive. O1 restores power by restoring honesty; it invites you to stop negotiating with your own truth. If you feel lost, O1 says: the center is not outside you. Come home to yourself and let that be the foundation.",
      prompt:"<b>Ask:</b> If nobody could judge me, what would I choose?"},
+
     {key:"O2", cat:"O-Glyph", title:"Zhakvirezen — Outer Self",
+     img:"images/O2.png",
      overview:"Persona and reputation. Align the mask with the truth so it becomes expression, not prison.",
      meaning:"O2 is the Outer Self—the mask, persona, reputation, and social identity you move through the world with. When O2 appears, it asks whether your outer life matches your inner truth or whether you’ve drifted into performance and self-betrayal. This rune can indicate image concerns, public perception, or the roles you play to be accepted. It isn’t automatically negative; masks can be tools, armor, and language. But O2 demands alignment: if the mask is too far from the self, exhaustion and resentment grow. Adjust the outer self so it becomes an expression—not a prison.",
      prompt:"<b>Ask:</b> Where is my outer life out of alignment with my inner self?"},
+
     {key:"O3", cat:"O-Glyph", title:"Thalekh’el’vrenekh — Divine Self",
+     img:"images/O3.png",
      overview:"Calling and sacred purpose. Choose what is meaningful over what is merely easy.",
      meaning:"O3 is the Divine Self—the part of you aligned with calling, sacred purpose, and responsibility beyond comfort. When O3 appears, life is asking you to act from a higher ‘why’ and to choose what is meaningful rather than merely easy. This rune can indicate a spiritual path deepening, a purpose becoming clearer, or a moment where your gifts must be used in service of something larger. O3 also tests devotion: are you willing to become the person your calling requires? It is not about perfection; it is about sincerity and courage. When O3 arrives, your next step should honor the divine thread running through your life.",
      prompt:"<b>Ask:</b> What purpose is asking to lead my next step?"},
+
     {key:"O4", cat:"O-Glyph", title:"Thal’shun — Origin",
+     img:"images/O4.png",
      overview:"Return to the root cause. Touch the first seed and the whole structure changes.",
      meaning:"O4 is Origin—the root cause, the first seed, the beginning beneath the story. When O4 appears, it asks you to stop treating symptoms and return to the source: the original belief, wound, decision, desire, or event that set everything in motion. This rune favors simplification and truth: when you touch the root, the entire structure changes. O4 can also indicate fresh beginnings, resets, and the need to rebuild on a cleaner foundation. If you’re confused, O4 says: go back to the first thing. The answer is often hidden in the origin point.",
      prompt:"<b>Ask:</b> What is the real root of this situation?"}
@@ -255,6 +494,7 @@
   const mMeta = document.getElementById("mMeta");
   const mMeaning = document.getElementById("mMeaning");
   const mPrompt = document.getElementById("mPrompt");
+  const mImgWrap = document.getElementById("mImgWrap");
 
   function renderChips(){
     chips.innerHTML = "";
@@ -279,6 +519,14 @@
     );
   }
 
+  function imgHTML(src, alt, mode){
+    if(!src){
+      return `<div class="placeholder">No image yet — add one by setting <b>img</b>${mode==="modal" ? " or <b>imgLarge</b>" : ""} for this rune.</div>`;
+    }
+    const safeAlt = (alt || "").replace(/"/g,'&quot;');
+    return `<img src="${src}" alt="${safeAlt}" />`;
+  }
+
   function render(){
     const term = q.value.trim();
     grid.innerHTML = "";
@@ -290,9 +538,12 @@
         const el = document.createElement("div");
         el.className = "card";
         el.innerHTML = `
-          <div class="key">${r.key}</div>
-          <div class="cat">${r.cat}</div>
+          <div class="toprow">
+            <div class="key">${r.key}</div>
+            <div class="cat">${r.cat}</div>
+          </div>
           <div class="title">${r.title}</div>
+          <div class="thumb">${imgHTML(r.img, r.key + " rune image", "card")}</div>
           <div class="short">${r.overview || ""}</div>
         `;
         el.onclick = () => openModal(r);
@@ -303,6 +554,10 @@
   function openModal(r){
     mKey.textContent = r.key + " — " + r.title;
     mMeta.textContent = r.cat;
+
+    const src = r.imgLarge || r.img || "";
+    mImgWrap.innerHTML = imgHTML(src, r.key + " rune image", "modal");
+
     mMeaning.textContent = r.meaning || "";
     mPrompt.innerHTML = r.prompt || "";
     overlay.classList.add("show");
